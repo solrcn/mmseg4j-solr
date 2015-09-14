@@ -20,8 +20,7 @@ public class MMSegTokenizer extends Tokenizer {
 	private OffsetAttribute offsetAtt;
 	private TypeAttribute typeAtt;
 
-	public MMSegTokenizer(Seg seg, Reader input) {
-		super(input);
+	public MMSegTokenizer(Seg seg) {
 		mmSeg = new MMSeg(input, seg);
 
 		termAtt = addAttribute(CharTermAttribute.class);
@@ -29,7 +28,10 @@ public class MMSegTokenizer extends Tokenizer {
 		typeAtt = addAttribute(TypeAttribute.class);
 	}
 
+
+
 	public void reset() throws IOException {
+
 		super.reset();
 		//lucene 4.0
 		//org.apache.lucene.analysis.Tokenizer.setReader(Reader)

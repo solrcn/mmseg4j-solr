@@ -1,7 +1,6 @@
 package com.chenlb.mmseg4j.analysis;
 
 import java.io.File;
-import java.io.Reader;
 
 import org.apache.lucene.analysis.Analyzer;
 
@@ -25,6 +24,11 @@ public class MMSegAnalyzer extends Analyzer {
 	 */
 	public MMSegAnalyzer() {
 		dic = Dictionary.getInstance();
+	}
+
+	@Override
+	protected TokenStreamComponents createComponents(String fieldName) {
+		return new TokenStreamComponents(new MMSegTokenizer(newSeg()));
 	}
 
 	/**
@@ -54,10 +58,5 @@ public class MMSegAnalyzer extends Analyzer {
 
 	public Dictionary getDict() {
 		return dic;
-	}
-
-	@Override
-	protected TokenStreamComponents createComponents(String fieldName, Reader reader) {
-		return new TokenStreamComponents(new MMSegTokenizer(newSeg(), reader));
 	}
 }

@@ -98,9 +98,10 @@ public class CutLetterDigitFilter extends TokenFilter {
 	}
 
 	private void addToken(Token oriToken, int termBufferOffset, int termBufferLength, byte type) {
-		Token token = new Token(oriToken.buffer(), termBufferOffset, termBufferLength,
-				oriToken.startOffset()+termBufferOffset, oriToken.startOffset()+termBufferOffset+termBufferLength);
-
+//		Token token = new Token(oriToken.buffer(), termBufferOffset, termBufferLength,
+//				oriToken.startOffset()+termBufferOffset, oriToken.startOffset()+termBufferOffset+termBufferLength);
+        Token token = new Token();
+        token.setOffset(oriToken.startOffset()+termBufferOffset,oriToken.startOffset()+termBufferOffset+termBufferLength);
 		if(type == Character.DECIMAL_DIGIT_NUMBER) {
 			token.setType(Word.TYPE_DIGIT);
 		} else {

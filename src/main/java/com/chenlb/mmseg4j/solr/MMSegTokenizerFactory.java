@@ -31,6 +31,15 @@ public class MMSegTokenizerFactory extends TokenizerFactory implements ResourceL
 		super(args);
 	}
 
+	@Override
+	public Tokenizer create(AttributeFactory factory) {
+		MMSegTokenizer tokenizer = tokenizerLocal.get();
+		if(tokenizer == null) {
+			tokenizer = newTokenizer();
+		}
+		return tokenizer;
+	}
+
 	private Seg newSeg(Map<String, String> args) {
 		Seg seg = null;
 		logger.info("create new Seg ...");
@@ -49,25 +58,8 @@ public class MMSegTokenizerFactory extends TokenizerFactory implements ResourceL
 		return seg;
 	}
 
-	@Override
-	public Tokenizer create(AttributeFactory factory, Reader input) {
-		MMSegTokenizer tokenizer = tokenizerLocal.get();
-		if(tokenizer == null) {
-			tokenizer = newTokenizer(input);
-		} else {
-			try {
-				tokenizer.setReader(input);
-			} catch (IOException e) {
-				tokenizer = newTokenizer(input);
-				logger.info("MMSegTokenizer.setReader i/o error by: e.getMessage()", e);
-			}
-		}
-
-		return tokenizer;
-	}
-
-	private MMSegTokenizer newTokenizer(Reader input) {
-		MMSegTokenizer tokenizer = new MMSegTokenizer(newSeg(getOriginalArgs()), input);
+	private MMSegTokenizer newTokenizer() {
+		MMSegTokenizer tokenizer = new MMSegTokenizer(newSeg(getOriginalArgs()));
 		tokenizerLocal.set(tokenizer);
 		return tokenizer;
 	}
